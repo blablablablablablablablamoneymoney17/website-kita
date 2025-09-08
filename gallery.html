@@ -18,13 +18,6 @@
             padding: 4rem 0;
             background-color: #fff5f8;
         }
-        .debug-info {
-            background: #f8f9fa;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            font-family: monospace;
-        }
         .back-button {
             position: fixed;
             top: 20px; /* Ubah dari 80px ke 20px */
@@ -56,11 +49,6 @@
         <div class="container">
             <h2 class="text-center mb-4">Galeri Foto Kami</h2>
                          
-            <!-- Debug Info -->
-            <div class="debug-info">
-                <p><span id="currentPath"></span></p>
-                <p> <span id="fullUrl"></span></p>
-            </div>
 
             <div class="row g-4" id="gallery-container">
                 <!-- Images will be loaded dynamically here -->
@@ -69,7 +57,7 @@
     </section>
 
     <script>
-        // Array of all image filenames in the assets/images folder
+        // Array of working image filenames in the assets/images folder
         const imageFiles = [
             'WhatsApp Image 2025-08-11 at 14.24.21_d50c4272.jpg',
             'WhatsApp Image 2025-08-12 at 00.50.35_978194b6.jpg',
@@ -77,7 +65,6 @@
             'WhatsApp Image 2025-08-12 at 00.50.36_a526bd0f.jpg',
             'WhatsApp Image 2025-08-12 at 00.56.03_34e5cb32.jpg',
             'WhatsApp Image 2025-08-12 at 00.56.04_b97aa7e5.jpg',
-            'WhatsApp Image 2025-08-12 at 01.07.58_3bde4791.jpg',
             'WhatsApp Image 2025-09-07 at 09.45.38_8419abcd.jpg',
             'WhatsApp Image 2025-09-07 at 09.45.39_0db29a28.jpg',
             'WhatsApp Image 2025-09-07 at 09.45.39_d68fc601.jpg',
@@ -86,29 +73,18 @@
             'WhatsApp Image 2025-09-07 at 09.45.41_1c0c48fd.jpg',
             'WhatsApp Image 2025-09-07 at 09.45.41_8aa1a253.jpg',
             'WhatsApp Image 2025-09-07 at 09.45.41_d9a7d988.jpg',
-            'WhatsApp Image 2025-09-07 at 09.45.42_1e494998.jpg',
             'WhatsApp Image 2025-09-07 at 09.45.45_2150e1a9.jpg',
             'WhatsApp Image 2025-09-07 at 09.45.45_cdb9becc.jpg',
             'icacayangku.jpg',
             'kita.jpg',
-            'orangganteng.jpg',
-            'foto-saya.jpg'
+            'orang ganteng2.jpg',
+            'orangganteng.jpg'
         ];
 
         function handleImageError(img) {
             console.error('Image failed to load:', img.src);
-            const currentPath = document.getElementById('currentPath');
-            const fullUrl = document.getElementById('fullUrl');
-            currentPath.textContent = img.src;
-            fullUrl.textContent = window.location.origin + '/' + img.src;
-                         
             img.style.display = 'none';
-            img.parentElement.innerHTML = `
-                <div style="background:#ffe6e6; padding:20px; border-radius:10px; text-align:center;">
-                    <p>Gambar tidak ditemukan</p>
-                    <small>Path: ${img.src}</small>
-                </div>
-            `;
+            img.parentElement.remove();
         }
 
         function loadGalleryImages() {
