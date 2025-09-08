@@ -1,0 +1,61 @@
+/* Custom style for romantic website */
+body {
+  background: linear-gradient(135deg, #ffe4ec 0%, #fff 100%);
+  color: #b94e7c;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #e75480;
+}
+
+.btn-pink {
+  background: #ffb6d5;
+  color: #b94e7c;
+  border: none;
+  transition: background 0.3s, color 0.3s;
+}
+.btn-pink:hover {
+  background: #ffe4ec;
+  color: #e75480;
+}
+
+.navbar {
+  background: rgba(255,255,255,0.95) !important;
+  box-shadow: 0 2px 8px rgba(185,78,124,0.07);
+}
+
+.nav-link.active {
+  color: #e75480 !important;
+  font-weight: bold;
+}
+
+.bg-hero {
+  background: url('../images/kita.jpg') center/cover no-repeat;
+  min-height: 80vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bg-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255, 192, 203, 0.4);
+  z-index: 1;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #b94e7c;
+}
+
+footer {
+  background: #fff;
+  color: #b94e7c;
+}
+
+@media (max-width: 768px) {
+  .bg-hero { min-height: 60vh; }
+  .hero-content h1 { font-size: 2rem; }
+}

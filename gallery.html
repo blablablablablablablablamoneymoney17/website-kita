@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Foto Kami</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .gallery-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .gallery-section {
+            padding: 4rem 0;
+            background-color: #fff5f8;
+        }
+        .debug-info {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        .back-button {
+            position: fixed;
+            top: 20px; /* Ubah dari 80px ke 20px */
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 192, 203, 0.9);
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: #ff1493;
+            text-decoration: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+                 
+        .back-button:hover {
+            transform: translateX(-5px);
+            background: rgba(255, 105, 180, 0.9);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Add this right after <body> tag -->
+    <a href="index.html" class="back-button">
+        <i class="fas fa-arrow-left"></i> Kembali
+    </a>
+
+    <section class="gallery-section">
+        <div class="container">
+            <h2 class="text-center mb-4">Galeri Foto Kami</h2>
+                         
+            <!-- Debug Info -->
+            <div class="debug-info">
+                <p><span id="currentPath"></span></p>
+                <p> <span id="fullUrl"></span></p>
+            </div>
+
+            <div class="row g-4" id="gallery-container">
+                <!-- Images will be loaded dynamically here -->
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Array of all image filenames in the assets/images folder
+        const imageFiles = [
+            'WhatsApp Image 2025-08-11 at 14.24.21_d50c4272.jpg',
+            'WhatsApp Image 2025-08-12 at 00.50.35_978194b6.jpg',
+            'WhatsApp Image 2025-08-12 at 00.50.36_1f8ee6b4.jpg',
+            'WhatsApp Image 2025-08-12 at 00.50.36_a526bd0f.jpg',
+            'WhatsApp Image 2025-08-12 at 00.56.03_34e5cb32.jpg',
+            'WhatsApp Image 2025-08-12 at 00.56.04_b97aa7e5.jpg',
+            'WhatsApp Image 2025-08-12 at 01.07.58_3bde4791.jpg',
+            'WhatsApp Image 2025-09-07 at 09.45.38_8419abcd.jpg',
+            'WhatsApp Image 2025-09-07 at 09.45.39_0db29a28.jpg',
+            'WhatsApp Image 2025-09-07 at 09.45.39_d68fc601.jpg',
+            'WhatsApp Image 2025-09-07 at 09.45.40_6a0b32a1.jpg',
+            'WhatsApp Image 2025-09-07 at 09.45.40_8a886909.jpg',
+            'WhatsApp Image 2025-09-07 at 09.45.41_1c0c48fd.jpg',
+            'WhatsApp Image 2025-09-07 at 09.45.41_8aa1a253.jpg',
+            'WhatsApp Image 2025-09-07 at 09.45.41_d9a7d988.jpg',
+            'WhatsApp Image 2025-09-07 at 09.45.42_1e494998.jpg',
+            'WhatsApp Image 2025-09-07 at 09.45.45_2150e1a9.jpg',
+            'WhatsApp Image 2025-09-07 at 09.45.45_cdb9becc.jpg',
+            'icacayangku.jpg',
+            'kita.jpg',
+            'orangganteng.jpg',
+            'foto-saya.jpg'
+        ];
+
+        function handleImageError(img) {
+            console.error('Image failed to load:', img.src);
+            const currentPath = document.getElementById('currentPath');
+            const fullUrl = document.getElementById('fullUrl');
+            currentPath.textContent = img.src;
+            fullUrl.textContent = window.location.origin + '/' + img.src;
+                         
+            img.style.display = 'none';
+            img.parentElement.innerHTML = `
+                <div style="background:#ffe6e6; padding:20px; border-radius:10px; text-align:center;">
+                    <p>Gambar tidak ditemukan</p>
+                    <small>Path: ${img.src}</small>
+                </div>
+            `;
+        }
+
+        function loadGalleryImages() {
+            const galleryContainer = document.getElementById('gallery-container');
+            
+            imageFiles.forEach((filename, index) => {
+                // Create column div
+                const colDiv = document.createElement('div');
+                colDiv.className = 'col-12 col-md-4 col-lg-3';
+                
+                // Create image element
+                const img = document.createElement('img');
+                img.src = `assets/images/${filename}`;
+                img.alt = `Foto ${index + 1}`;
+                img.className = 'gallery-img';
+                img.onerror = function() { handleImageError(this); };
+                
+                // Add click event for modal or lightbox (optional)
+                img.style.cursor = 'pointer';
+                img.onclick = function() {
+                    // Simple image preview
+                    window.open(this.src, '_blank');
+                };
+                
+                colDiv.appendChild(img);
+                galleryContainer.appendChild(colDiv);
+            });
+        }
+
+        // Load images when page is ready
+        document.addEventListener('DOMContentLoaded', loadGalleryImages);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
