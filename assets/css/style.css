@@ -1,6 +1,7 @@
 /* Custom style for romantic website */
 body {
-  background: linear-gradient(135deg, #ffe4ec 0%, #fff 100%);
+  background: linear-gradient(180deg, #f8c2d4 0%, #e8a5c0 25%, #d688ac 50%, #87ceeb 75%, #5fb3d4 100%);
+  min-height: 100vh;
   color: #b94e7c;
 }
 
@@ -9,14 +10,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-pink {
-  background: #ffb6d5;
-  color: #b94e7c;
+  background: linear-gradient(135deg, #ff69b4 0%, #87ceeb 100%);
+  color: white;
   border: none;
-  transition: background 0.3s, color 0.3s;
+  transition: all 0.3s ease;
 }
 .btn-pink:hover {
-  background: #ffe4ec;
-  color: #e75480;
+  background: linear-gradient(135deg, #ff1493 0%, #5fb3d4 100%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .navbar {
@@ -40,7 +43,7 @@ h1, h2, h3, h4, h5, h6 {
 .bg-overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(255, 192, 203, 0.4);
+  background: linear-gradient(180deg, rgba(248, 194, 212, 0.3) 0%, rgba(135, 206, 235, 0.3) 100%);
   z-index: 1;
 }
 .hero-content {

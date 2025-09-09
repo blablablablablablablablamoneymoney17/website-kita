@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galeri Foto Kami</title>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Galeri Foto - Kenangan Indah Bayu & Ica">
+    <meta property="og:description" content="Koleksi foto-foto romantis dan kenangan indah perjalanan cinta kami. Lihat momen-momen spesial yang diabadikan dengan penuh cinta.">
+    <meta property="og:image" content="./assets/images/icacayangku.jpg">
+    <meta property="og:url" content="https://yourwebsite.com/gallery.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kisah Cinta Kita">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Galeri Foto - Kenangan Indah Bayu & Ica">
+    <meta name="twitter:description" content="Koleksi foto-foto romantis dan kenangan indah perjalanan cinta kami.">
+    <meta name="twitter:image" content="./assets/images/icacayangku.jpg">
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -16,14 +30,15 @@
         }
         .gallery-section {
             padding: 4rem 0;
-            background-color: #fff5f8;
+            background: linear-gradient(180deg, #f8c2d4 0%, #e8a5c0 25%, #d688ac 50%, #87ceeb 75%, #5fb3d4 100%);
+            min-height: 100vh;
         }
         .back-button {
             position: fixed;
             top: 20px; /* Ubah dari 80px ke 20px */
             left: 20px;
             z-index: 1000;
-            background: rgba(255, 192, 203, 0.9);
+            background: linear-gradient(135deg, rgba(248, 194, 212, 0.9) 0%, rgba(135, 206, 235, 0.9) 100%);
             padding: 10px 20px;
             border-radius: 25px;
             color: #ff1493;
@@ -34,7 +49,7 @@
                  
         .back-button:hover {
             transform: translateX(-5px);
-            background: rgba(255, 105, 180, 0.9);
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.9) 0%, rgba(95, 179, 212, 0.9) 100%);
             color: white;
         }
     </style>
@@ -57,28 +72,21 @@
     </section>
 
     <script>
-        // Array of working image filenames in the assets/images folder
+        // Array of all image filenames in the gallery
         const imageFiles = [
+            'icacayangku.jpg',
+            'bayuganteng.jpg',
+            'sayangku cantik.jpg',
             'WhatsApp Image 2025-08-11 at 14.24.21_d50c4272.jpg',
             'WhatsApp Image 2025-08-12 at 00.50.35_978194b6.jpg',
-            'WhatsApp Image 2025-08-12 at 00.50.36_1f8ee6b4.jpg',
-            'WhatsApp Image 2025-08-12 at 00.50.36_a526bd0f.jpg',
-            'WhatsApp Image 2025-08-12 at 00.56.03_34e5cb32.jpg',
-            'WhatsApp Image 2025-08-12 at 00.56.04_b97aa7e5.jpg',
-            'WhatsApp Image 2025-09-07 at 09.45.38_8419abcd.jpg',
-            'WhatsApp Image 2025-09-07 at 09.45.39_0db29a28.jpg',
-            'WhatsApp Image 2025-09-07 at 09.45.39_d68fc601.jpg',
-            'WhatsApp Image 2025-09-07 at 09.45.40_6a0b32a1.jpg',
-            'WhatsApp Image 2025-09-07 at 09.45.40_8a886909.jpg',
-            'WhatsApp Image 2025-09-07 at 09.45.41_1c0c48fd.jpg',
-            'WhatsApp Image 2025-09-07 at 09.45.41_8aa1a253.jpg',
-            'WhatsApp Image 2025-09-07 at 09.45.41_d9a7d988.jpg',
-            'WhatsApp Image 2025-09-07 at 09.45.45_2150e1a9.jpg',
-            'WhatsApp Image 2025-09-07 at 09.45.45_cdb9becc.jpg',
-            'icacayangku.jpg',
+            'beachseal.jpg',
+            'forbeach1.jpg',
+            'icadanbayu.jpg',
             'kita.jpg',
-            'orang ganteng2.jpg',
-            'orangganteng.jpg'
+            'widihcantikbanget.jpg',
+            'wow.jpg',
+            'wowcantik banget.jpg',
+            'yoyo.jpg'
         ];
 
         function handleImageError(img) {
