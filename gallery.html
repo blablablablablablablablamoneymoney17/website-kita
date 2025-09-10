@@ -20,18 +20,68 @@
     <meta name="twitter:image" content="./assets/images/icacayangku.jpg">
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Global Music Player -->
+    <script src="assets/js/global-music.js"></script>
     <style>
+        /* Polaroid Frame Styling */
+        .polaroid-frame {
+            background: white;
+            padding: 15px 15px 60px 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15), 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 3px;
+            transform: rotate(0deg);
+            transition: all 0.3s ease;
+            margin: 20px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            max-width: 280px;
+        }
+        
+        .polaroid-frame:nth-child(odd) {
+            transform: rotate(-2deg);
+        }
+        
+        .polaroid-frame:nth-child(even) {
+            transform: rotate(1.5deg);
+        }
+        
+        .polaroid-frame:nth-child(3n) {
+            transform: rotate(-1deg);
+        }
+        
+        .polaroid-frame:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2), 0 6px 15px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+        
         .gallery-img {
             width: 100%;
-            height: 300px;
+            height: 250px;
             object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 2px;
+            display: block;
         }
+        
         .gallery-section {
             padding: 4rem 0;
             background: linear-gradient(180deg, #f8c2d4 0%, #e8a5c0 25%, #d688ac 50%, #87ceeb 75%, #5fb3d4 100%);
             min-height: 100vh;
+        }
+        
+        .gallery-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .gallery-item {
+            flex: 0 0 auto;
         }
         .back-button {
             position: fixed;
@@ -62,10 +112,9 @@
 
     <section class="gallery-section">
         <div class="container">
-            <h2 class="text-center mb-4">Galeri Foto Kami</h2>
+            <h2 class="text-center mb-5" style="color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); font-weight: bold;">📸 Galeri Foto Kami 📸</h2>
                          
-
-            <div class="row g-4" id="gallery-container">
+            <div class="gallery-container" id="gallery-container">
                 <!-- Images will be loaded dynamically here -->
             </div>
         </div>
@@ -99,9 +148,9 @@
             const galleryContainer = document.getElementById('gallery-container');
             
             imageFiles.forEach((filename, index) => {
-                // Create column div
-                const colDiv = document.createElement('div');
-                colDiv.className = 'col-12 col-md-4 col-lg-3';
+                // Create polaroid frame container
+                const polaroidFrame = document.createElement('div');
+                polaroidFrame.className = 'polaroid-frame gallery-item';
                 
                 // Create image element
                 const img = document.createElement('img');
@@ -110,15 +159,16 @@
                 img.className = 'gallery-img';
                 img.onerror = function() { handleImageError(this); };
                 
-                // Add click event for modal or lightbox (optional)
-                img.style.cursor = 'pointer';
-                img.onclick = function() {
+                // Add click event for modal or lightbox
+                polaroidFrame.style.cursor = 'pointer';
+                polaroidFrame.onclick = function() {
                     // Simple image preview
-                    window.open(this.src, '_blank');
+                    window.open(img.src, '_blank');
                 };
                 
-                colDiv.appendChild(img);
-                galleryContainer.appendChild(colDiv);
+                // Assemble polaroid (only image, no caption)
+                polaroidFrame.appendChild(img);
+                galleryContainer.appendChild(polaroidFrame);
             });
         }
 
