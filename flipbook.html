@@ -28,40 +28,84 @@
         body {
             background: linear-gradient(180deg, #f8c2d4 0%, #e8a5c0 25%, #d688ac 50%, #87ceeb 75%, #5fb3d4 100%);
             min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            color: #b94e7c;
         }
         
-        .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            background: linear-gradient(135deg, rgba(248, 194, 212, 0.9) 0%, rgba(135, 206, 235, 0.9) 100%);
-            padding: 10px 20px;
-            border-radius: 25px;
-            color: #ff1493;
-            text-decoration: none;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        .navbar {
+            background: rgba(255,255,255,0.95) !important;
+            box-shadow: 0 2px 8px rgba(185,78,124,0.07);
+        }
+        
+        .nav-link.active {
+            color: #e75480 !important;
+            font-weight: bold;
+        }
+        
+        .btn-pink {
+            background: linear-gradient(135deg, #ff69b4 0%, #87ceeb 100%);
+            color: white;
+            border: none;
             transition: all 0.3s ease;
         }
         
-        .back-button:hover {
-            transform: translateX(-5px);
-            background: linear-gradient(135deg, rgba(255, 20, 147, 0.9) 0%, rgba(95, 179, 212, 0.9) 100%);
+        .btn-pink:hover {
+            background: linear-gradient(135deg, #ff1493 0%, #5fb3d4 100%);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: linear-gradient(135deg, rgba(248, 194, 212, 0.9) 0%, rgba(135, 206, 235, 0.9) 100%);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .music-btn {
+            background: none;
+            border: none;
+            color: #ff1493;
+            cursor: pointer;
+            padding: 8px 15px;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .music-btn:hover {
+            transform: scale(1.1);
         }
 
         .flipbook-container {
             width: 100%;
             height: 100vh;
-            padding-top: 20px;
+            padding-top: 80px; /* Add padding for navbar */
         }
     </style>
 </head>
 <body>
-    <!-- Back Button -->
-    <a href="index.html" class="back-button">
-        <i class="fas fa-arrow-left"></i> Kembali
-    </a>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html" style="color:#e75480;">Cinta Kami</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">Tentang kita</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Galeri Foto</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="flipbook.html">Novel kita</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <!-- Flipbook Container -->
     <div class="flipbook-container">

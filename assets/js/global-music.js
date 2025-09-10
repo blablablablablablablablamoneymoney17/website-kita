@@ -1,4 +1,4 @@
-// Global Music Player - Persists across all pages
+// Simple Global Music Player
 class GlobalMusicPlayer {
     constructor() {
         this.audio = null;
@@ -11,27 +11,31 @@ class GlobalMusicPlayer {
     }
     
     init() {
-        // Create audio element
+        // Create simple audio element
         this.audio = new Audio(this.musicUrl);
         this.audio.loop = true;
         this.audio.volume = this.volume;
         this.audio.preload = 'auto';
         
-        // Load saved state from localStorage
+        // Load saved state
         this.loadState();
         
-        // Set up event listeners
-        this.setupEventListeners();
+        // Simple event listeners
+        this.audio.addEventListener('timeupdate', () => {
+            if (this.isPlaying) {
+                this.currentTime = this.audio.currentTime;
+            }
+        });
         
-        // Create music controls
+        // Create controls
         this.createMusicControls();
         
-        // Auto-resume if was playing - with delay to ensure DOM is ready
-        setTimeout(() => {
-            if (this.isPlaying) {
+        // Auto-resume if was playing
+        if (this.isPlaying) {
+            setTimeout(() => {
                 this.resumeMusic();
-            }
-        }, 200);
+            }, 300);
+        }
         
         // Save state before page unload
         window.addEventListener('beforeunload', () => {
@@ -47,28 +51,6 @@ class GlobalMusicPlayer {
         }, 1000);
     }
     
-    setupEventListeners() {
-        if (this.audio) {
-            this.audio.addEventListener('loadeddata', () => {
-                // Audio is ready to play
-                if (this.isPlaying && this.currentTime > 0) {
-                    this.audio.currentTime = this.currentTime;
-                }
-            });
-            
-            this.audio.addEventListener('canplaythrough', () => {
-                // Audio can play through without buffering
-                if (this.isPlaying) {
-                    this.audio.currentTime = this.currentTime;
-                    this.audio.play().catch(e => console.log('Autoplay prevented:', e));
-                }
-            });
-            
-            this.audio.addEventListener('timeupdate', () => {
-                this.currentTime = this.audio.currentTime;
-            });
-        }
-    }
     
     createMusicControls() {
         // Remove existing music controls
@@ -128,30 +110,25 @@ class GlobalMusicPlayer {
     }
     
     playMusic() {
-        if (this.audio) {
-            // Set current time if we have a saved position
-            if (this.currentTime > 0) {
-                this.audio.currentTime = this.currentTime;
-            }
-            
-            const playPromise = this.audio.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    this.isPlaying = true;
-                    this.updateButtonStates();
-                    this.saveState();
-                }).catch(e => {
-                    console.log('Play failed:', e);
-                    // Try to enable audio context with user interaction
-                    this.enableAudioContext();
-                });
-            }
+        if (!this.audio) return;
+        
+        // Restore saved position
+        if (this.currentTime > 0) {
+            this.audio.currentTime = this.currentTime;
         }
+        
+        this.audio.play().then(() => {
+            this.isPlaying = true;
+            this.updateButtonStates();
+            this.saveState();
+        }).catch(e => {
+            console.log('Play failed:', e);
+        });
     }
     
     pauseMusic() {
         if (this.audio) {
+            this.currentTime = this.audio.currentTime;
             this.audio.pause();
             this.isPlaying = false;
             this.updateButtonStates();
@@ -161,23 +138,10 @@ class GlobalMusicPlayer {
     
     resumeMusic() {
         if (this.audio && this.isPlaying) {
-            // Ensure audio is loaded before resuming
-            const tryResume = () => {
-                if (this.audio.readyState >= 2) { // HAVE_CURRENT_DATA or higher
-                    if (this.currentTime > 0) {
-                        this.audio.currentTime = this.currentTime;
-                    }
-                    this.audio.play().catch(e => {
-                        console.log('Resume failed:', e);
-                        // Retry after user interaction
-                        this.enableAudioContext();
-                    });
-                } else {
-                    // Wait for audio to load
-                    setTimeout(tryResume, 50);
-                }
-            };
-            tryResume();
+            if (this.currentTime > 0) {
+                this.audio.currentTime = this.currentTime;
+            }
+            this.audio.play().catch(e => console.log('Resume failed:', e));
         }
     }
     
@@ -230,41 +194,13 @@ class GlobalMusicPlayer {
         }
     }
     
-    enableAudioContext() {
-        // Enable audio context on user interaction
-        const enableAudio = () => {
-            if (this.audio && this.isPlaying) {
-                if (this.currentTime > 0) {
-                    this.audio.currentTime = this.currentTime;
-                }
-                this.audio.play().then(() => {
-                    this.updateButtonStates();
-                }).catch(e => console.log('Audio context enable failed:', e));
-            }
-        };
-        
-        document.addEventListener('click', enableAudio, { once: true });
-        document.addEventListener('touchstart', enableAudio, { once: true });
-    }
 }
 
-// Initialize global music player when DOM is loaded
+// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    // Small delay to ensure all elements are ready
-    setTimeout(() => {
-        if (!window.globalMusicPlayer) {
-            window.globalMusicPlayer = new GlobalMusicPlayer();
-        }
-    }, 100);
-});
-
-// Also initialize on window load as backup
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        if (!window.globalMusicPlayer) {
-            window.globalMusicPlayer = new GlobalMusicPlayer();
-        }
-    }, 200);
+    if (!window.globalMusicPlayer) {
+        window.globalMusicPlayer = new GlobalMusicPlayer();
+    }
 });
 
 // Legacy function for backward compatibility
