@@ -5,7 +5,7 @@ class GlobalMusicPlayer {
         this.isPlaying = false;
         this.currentTime = 0;
         this.volume = 0.7;
-        this.musicUrl = './assets/music/imtiaz252_all-of-me-john-legend-lindsey-stirling.mp3';
+        this.musicUrl = './assets/music/imtiaz252_all-of-me-john-legend-lindsey-stirling (1).mp3';
         
         this.init();
     }
@@ -26,10 +26,12 @@ class GlobalMusicPlayer {
         // Create music controls
         this.createMusicControls();
         
-        // Auto-resume if was playing
-        if (this.isPlaying) {
-            this.resumeMusic();
-        }
+        // Auto-resume if was playing - with delay to ensure DOM is ready
+        setTimeout(() => {
+            if (this.isPlaying) {
+                this.resumeMusic();
+            }
+        }, 200);
         
         // Save state before page unload
         window.addEventListener('beforeunload', () => {
@@ -159,15 +161,23 @@ class GlobalMusicPlayer {
     
     resumeMusic() {
         if (this.audio && this.isPlaying) {
-            // Small delay to ensure audio is loaded
-            setTimeout(() => {
-                if (this.currentTime > 0) {
-                    this.audio.currentTime = this.currentTime;
+            // Ensure audio is loaded before resuming
+            const tryResume = () => {
+                if (this.audio.readyState >= 2) { // HAVE_CURRENT_DATA or higher
+                    if (this.currentTime > 0) {
+                        this.audio.currentTime = this.currentTime;
+                    }
+                    this.audio.play().catch(e => {
+                        console.log('Resume failed:', e);
+                        // Retry after user interaction
+                        this.enableAudioContext();
+                    });
+                } else {
+                    // Wait for audio to load
+                    setTimeout(tryResume, 50);
                 }
-                this.audio.play().catch(e => {
-                    console.log('Resume failed:', e);
-                });
-            }, 100);
+            };
+            tryResume();
         }
     }
     
@@ -222,11 +232,19 @@ class GlobalMusicPlayer {
     
     enableAudioContext() {
         // Enable audio context on user interaction
-        document.addEventListener('click', () => {
+        const enableAudio = () => {
             if (this.audio && this.isPlaying) {
-                this.audio.play().catch(e => console.log('Audio context enable failed:', e));
+                if (this.currentTime > 0) {
+                    this.audio.currentTime = this.currentTime;
+                }
+                this.audio.play().then(() => {
+                    this.updateButtonStates();
+                }).catch(e => console.log('Audio context enable failed:', e));
             }
-        }, { once: true });
+        };
+        
+        document.addEventListener('click', enableAudio, { once: true });
+        document.addEventListener('touchstart', enableAudio, { once: true });
     }
 }
 
@@ -234,8 +252,19 @@ class GlobalMusicPlayer {
 document.addEventListener('DOMContentLoaded', () => {
     // Small delay to ensure all elements are ready
     setTimeout(() => {
-        window.globalMusicPlayer = new GlobalMusicPlayer();
+        if (!window.globalMusicPlayer) {
+            window.globalMusicPlayer = new GlobalMusicPlayer();
+        }
     }, 100);
+});
+
+// Also initialize on window load as backup
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        if (!window.globalMusicPlayer) {
+            window.globalMusicPlayer = new GlobalMusicPlayer();
+        }
+    }, 200);
 });
 
 // Legacy function for backward compatibility
