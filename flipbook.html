@@ -86,6 +86,25 @@
             height: 100vh;
             padding-top: 80px; /* Add padding for navbar */
         }
+        
+        /* Mobile Responsive Styles for Flipbook */
+        @media (max-width: 768px) {
+            .flipbook-container {
+                padding-top: 70px;
+                height: calc(100vh - 70px);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .flipbook-container {
+                padding-top: 60px;
+                height: calc(100vh - 60px);
+            }
+            
+            .navbar-brand {
+                font-size: 1.1rem !important;
+            }
+        }
     </style>
 </head>
 <body>

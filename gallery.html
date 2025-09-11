@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Global Music Player -->
     <script src="assets/js/global-music.js"></script>
+    <!-- Photo Manager -->
+    <script src="assets/js/photo-manager.js"></script>
     <style>
         body {
             background: linear-gradient(180deg, #f8c2d4 0%, #e8a5c0 25%, #d688ac 50%, #87ceeb 75%, #5fb3d4 100%);
@@ -138,6 +140,59 @@
         .gallery-item {
             flex: 0 0 auto;
         }
+        
+        /* Mobile Responsive Styles for Gallery */
+        @media (max-width: 768px) {
+            .polaroid-frame {
+                max-width: 200px;
+                margin: 15px;
+                padding: 10px 10px 40px 10px;
+            }
+            
+            .gallery-img {
+                height: 180px;
+            }
+            
+            .gallery-section {
+                padding: 5rem 0 3rem 0;
+            }
+            
+            .gallery-container {
+                gap: 5px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .polaroid-frame {
+                max-width: 160px;
+                margin: 10px;
+                padding: 8px 8px 30px 8px;
+            }
+            
+            .gallery-img {
+                height: 140px;
+            }
+            
+            .gallery-section {
+                padding: 4rem 0 2rem 0;
+            }
+            
+            h2 {
+                font-size: 1.5rem !important;
+                margin-bottom: 2rem !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .polaroid-frame {
+                max-width: 140px;
+                margin: 8px;
+            }
+            
+            .gallery-img {
+                height: 120px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -170,55 +225,48 @@
     </section>
 
     <script>
-        // Array of all image filenames in the gallery
-        const imageFiles = [
-            'icacayangku.jpg',
-            'bayuganteng.jpg',
-            'sayangku cantik.jpg',
-            'WhatsApp Image 2025-08-11 at 14.24.21_d50c4272.jpg',
-            'WhatsApp Image 2025-08-12 at 00.50.35_978194b6.jpg',
-            'beachseal.jpg',
-            'forbeach1.jpg',
-            'icadanbayu.jpg',
-            'kita.jpg',
-            'widihcantikbanget.jpg',
-            'wow.jpg',
-            'wowcantik banget.jpg',
-            'yoyo.jpg'
-        ];
-
-        function handleImageError(img) {
-            console.error('Image failed to load:', img.src);
-            img.style.display = 'none';
-            img.parentElement.remove();
-        }
-
-        function loadGalleryImages() {
+        async function loadGalleryImages() {
             const galleryContainer = document.getElementById('gallery-container');
+            const lazyLoadObserver = createLazyLoadObserver();
             
-            imageFiles.forEach((filename, index) => {
+            // Get valid photos only
+            const validPhotos = await getValidPhotos();
+            
+            validPhotos.forEach((filename, index) => {
                 // Create polaroid frame container
                 const polaroidFrame = document.createElement('div');
                 polaroidFrame.className = 'polaroid-frame gallery-item';
                 
-                // Create image element
-                const img = document.createElement('img');
-                img.src = `assets/images/${filename}`;
-                img.alt = `Foto ${index + 1}`;
-                img.className = 'gallery-img';
-                img.onerror = function() { handleImageError(this); };
+                // Create image element with lazy loading
+                const img = loadImageWithLazyLoading(
+                    `assets/images/${filename}`,
+                    `Foto ${index + 1}`,
+                    'gallery-img',
+                    lazyLoadObserver
+                );
                 
                 // Add click event for modal or lightbox
                 polaroidFrame.style.cursor = 'pointer';
                 polaroidFrame.onclick = function() {
                     // Simple image preview
-                    window.open(img.src, '_blank');
+                    const imgSrc = img.dataset.src || img.src;
+                    window.open(imgSrc, '_blank');
                 };
                 
                 // Assemble polaroid (only image, no caption)
                 polaroidFrame.appendChild(img);
                 galleryContainer.appendChild(polaroidFrame);
             });
+            
+            // Show loading message if no valid photos found
+            if (validPhotos.length === 0) {
+                galleryContainer.innerHTML = `
+                    <div style="text-align: center; color: #e75480; padding: 2rem;">
+                        <h3>Tidak ada foto yang ditemukan</h3>
+                        <p>Pastikan foto sudah diupload ke folder assets/images</p>
+                    </div>
+                `;
+            }
         }
 
         // Load images when page is ready
