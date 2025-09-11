@@ -91,11 +91,10 @@
             border-radius: 3px;
             transform: rotate(0deg);
             transition: all 0.3s ease;
-            margin: 20px;
+            margin: 0;
             position: relative;
             display: inline-block;
             width: 100%;
-            max-width: 280px;
         }
         
         .polaroid-frame:nth-child(odd) {
@@ -118,7 +117,7 @@
         
         .gallery-img {
             width: 100%;
-            height: 250px;
+            height: 300px;
             object-fit: cover;
             border-radius: 2px;
             display: block;
@@ -133,12 +132,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
+            padding: 0 2.5%;
         }
         
         .gallery-item {
-            width: 100%;
-            max-width: 400px;
+            width: 95%;
+            max-width: 450px;
             display: flex;
             justify-content: center;
         }
@@ -146,13 +146,11 @@
         /* Mobile Responsive Styles for Gallery */
         @media (max-width: 768px) {
             .polaroid-frame {
-                max-width: 200px;
-                margin: 15px;
-                padding: 10px 10px 40px 10px;
+                padding: 12px 12px 50px 12px;
             }
             
             .gallery-img {
-                height: 180px;
+                height: 280px;
             }
             
             .gallery-section {
@@ -160,23 +158,27 @@
             }
             
             .gallery-container {
-                gap: 5px;
+                gap: 25px;
+                padding: 0 2.5%;
             }
         }
         
         @media (max-width: 576px) {
             .polaroid-frame {
-                max-width: 160px;
-                margin: 10px;
-                padding: 8px 8px 30px 8px;
+                padding: 10px 10px 40px 10px;
             }
             
             .gallery-img {
-                height: 140px;
+                height: 250px;
             }
             
             .gallery-section {
                 padding: 4rem 0 2rem 0;
+            }
+            
+            .gallery-container {
+                gap: 25px;
+                padding: 0 2.5%;
             }
             
             h2 {
@@ -187,12 +189,16 @@
         
         @media (max-width: 480px) {
             .polaroid-frame {
-                max-width: 140px;
-                margin: 8px;
+                padding: 8px 8px 35px 8px;
             }
             
             .gallery-img {
-                height: 120px;
+                height: 220px;
+            }
+            
+            .gallery-container {
+                gap: 25px;
+                padding: 0 2.5%;
             }
         }
     </style>
