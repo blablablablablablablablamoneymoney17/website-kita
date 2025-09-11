@@ -165,9 +165,10 @@
     </div>
 
     <script>
-        // Tanggal awal (hari ke-95) - sesuaikan dengan tanggal mulai Anda
-        // Misalnya jika hari ini adalah hari ke-95, maka startDate adalah hari ini
-        const START_DATE = new Date('2024-06-08'); // Ubah sesuai tanggal awal Anda
+        // Tanggal awal - hari ini adalah hari ke-95
+        // Counter akan otomatis bertambah setiap hari
+        const today = new Date();
+        const START_DATE = new Date(today.getFullYear(), today.getMonth(), today.getDate()); // Hari ini
         const INITIAL_DAY_COUNT = 95;
 
         function updateDayCounter() {
