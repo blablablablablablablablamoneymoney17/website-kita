@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day Counter - Penghitung Hari Otomatis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f8c2d4 0%, #5fb3d4 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .day-counter {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        #daysCount {
+            font-size: 5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .label {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .info {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+
+        .date-info {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 20px;
+            }
+
+            #daysCount {
+                font-size: 4rem;
+            }
+
+            .label {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 15px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            #daysCount {
+                font-size: 3.5rem;
+            }
+
+            .day-counter {
+                padding: 20px;
+            }
+        }
+
+        /* Animation */
+        .day-counter {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #daysCount {
+            transition: all 0.3s ease;
+        }
+
+        #daysCount:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Penghitung Hari</h1>
+        
+        <div class="day-counter">
+            <span id="daysCount">95</span>
+            <div class="label">Hari Bersama</div>
+        </div>
+
+        <div class="info">
+            Counter ini akan otomatis bertambah setiap hari pada pukul 00:00
+        </div>
+
+        <div class="date-info">
+            <div>Hari ini: <span id="currentDate"></span></div>
+            <div>Waktu: <span id="currentTime"></span></div>
+        </div>
+    </div>
+
+    <script>
+        // Tanggal awal (hari ke-95) - sesuaikan dengan tanggal mulai Anda
+        // Misalnya jika hari ini adalah hari ke-95, maka startDate adalah hari ini
+        const START_DATE = new Date('2024-06-08'); // Ubah sesuai tanggal awal Anda
+        const INITIAL_DAY_COUNT = 95;
+
+        function updateDayCounter() {
+            const today = new Date();
+            const currentDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const startDate = new Date(START_DATE.getFullYear(), START_DATE.getMonth(), START_DATE.getDate());
+            
+            // Hitung selisih hari
+            const timeDifference = currentDate.getTime() - startDate.getTime();
+            const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            
+            // Hitung hari saat ini
+            const currentDayCount = INITIAL_DAY_COUNT + daysDifference;
+            
+            // Update tampilan
+            document.getElementById('daysCount').textContent = currentDayCount;
+            
+            return currentDayCount;
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            
+            // Format tanggal
+            const dateOptions = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const formattedDate = now.toLocaleDateString('id-ID', dateOptions);
+            
+            // Format waktu
+            const timeOptions = { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                hour12: false
+            };
+            const formattedTime = now.toLocaleTimeString('id-ID', timeOptions);
+            
+            document.getElementById('currentDate').textContent = formattedDate;
+            document.getElementById('currentTime').textContent = formattedTime;
+        }
+
+        function initializeCounter() {
+            // Update counter dan waktu saat halaman dimuat
+            updateDayCounter();
+            updateDateTime();
+            
+            // Update waktu setiap detik
+            setInterval(updateDateTime, 1000);
+            
+            // Update counter setiap menit untuk memastikan perubahan hari terdeteksi
+            setInterval(updateDayCounter, 60000);
+            
+            // Cek perubahan hari setiap detik menjelang tengah malam
+            setInterval(() => {
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                
+                // Jika mendekati tengah malam (23:59 atau 00:00), cek lebih sering
+                if ((hours === 23 && minutes >= 59) || (hours === 0 && minutes === 0)) {
+                    updateDayCounter();
+                }
+            }, 1000);
+        }
+
+        // Jalankan saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', initializeCounter);
+
+        // Update saat tab menjadi aktif kembali (jika user berpindah tab)
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                updateDayCounter();
+                updateDateTime();
+            }
+        });
+
+        // Animasi saat counter berubah
+        let lastDayCount = updateDayCounter();
+        setInterval(() => {
+            const currentDayCount = updateDayCounter();
+            if (currentDayCount !== lastDayCount) {
+                const counterElement = document.getElementById('daysCount');
+                counterElement.style.transform = 'scale(1.2)';
+                counterElement.style.color = '#ffff00';
+                
+                setTimeout(() => {
+                    counterElement.style.transform = 'scale(1)';
+                    counterElement.style.color = 'white';
+                }, 500);
+                
+                lastDayCount = currentDayCount;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
