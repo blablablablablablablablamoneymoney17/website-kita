@@ -1,6 +1,8 @@
 // Photo Management System
 // Array containing all photo filenames in assets/images folder
 const photoList = [
+    "new-photo-top.jpg",
+    "ica-drinking.jpg",
     "WhatsApp Image 2025-08-11 at 14.24.21_d50c4272.jpg",
     "WhatsApp Image 2025-08-12 at 00.50.35_978194b6.jpg",
     "bayuganteng.jpg",
